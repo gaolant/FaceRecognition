@@ -8,9 +8,6 @@ cap = cv2.VideoCapture(0)
 while cap.isOpened(): 
     ret, frame = cap.read()
 
-    # Cut down frame to 250x250px
-    frame = frame[120:120+250,200:200+250, :]
-
     # Collect positives
     if cv2.waitKey(5) & 0XFF == ord('t'):
         # Create the unique file path 
