@@ -1,6 +1,7 @@
 import cv2
 import os
 
+
 def dataset_cap():
     train_path = 'train'
     i = 0
@@ -31,4 +32,4 @@ def dataset_cap():
     # Close the image show frame
     cv2.destroyAllWindows()
 
-# def model_training():
+dataset_cap()
