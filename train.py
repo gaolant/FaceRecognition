@@ -3,7 +3,7 @@ import os
 
 
 def dataset_cap():
-    train_path = 'train'
+    train_path = 'train/Saleka'
     i = 0
 
     cap = cv2.VideoCapture(0)

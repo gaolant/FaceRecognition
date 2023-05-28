@@ -1,21 +1,19 @@
 import cv2
 import os
+from keras.models import load_model
+
 
 train_path = 'train'
-i = 0
+model = load_model('googleNetForFace.h5')
 
 cap = cv2.VideoCapture(0)
 while cap.isOpened(): 
     ret, frame = cap.read()
-
-    # Collect positives
-    if cv2.waitKey(5) & 0XFF == ord('t'):
-        # Create the unique file path 
-        imgname = os.path.join(train_path, '{}.jpg'.format(i))
-        i+=1
-        # Write out positive image
-        cv2.imwrite(imgname, frame)
-
+    # Cut down frame to 250x250px
+    frame = frame[120:120+250,200:200+250, :]
+    print(frame.shape)
+    pred=model.predict(frame)
+    print(pred)
     # Show image back to screen
     cv2.imshow('Image', frame)
 
