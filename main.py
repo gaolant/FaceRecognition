@@ -15,6 +15,7 @@ while cap.isOpened():
     pred=model.predict(frame)
     print(pred)
     # Show image back to screen
+    #dsad
     cv2.imshow('Image', frame)
 
     if cv2.waitKey(1) & 0XFF == ord('q'):
