@@ -5,6 +5,9 @@ from keras.models import load_model
 
 train_path = 'train'
 model = load_model('googleNetForFace.h5')
+# model.compile(loss='binary_crossentropy',
+#                   optimizer='adam',
+#                   metrics=['accuracy'])
 
 cap = cv2.VideoCapture(0)
 while cap.isOpened(): 

@@ -75,5 +75,5 @@ inc_model.compile(loss='binary_crossentropy',
 
 inc_model.fit(X, Y, epochs=10, validation_split=0.3)
 
-# accuracy = inc_model.evaluate(x_test, y_test)
+accuracy = inc_model.evaluate(X, Y)
 model.save('googleNetForFace.h5')
