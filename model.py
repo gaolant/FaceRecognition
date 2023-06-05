@@ -1,7 +1,6 @@
+import numpy as np
 import tensorflow as tf
-from keras.applications import inception_v3
-from sklearn.model_selection import train_test_split
-from keras.preprocessing.text import Tokenizer
+from keras import layers
 import os
 import cv2
 import numpy as np
@@ -11,8 +10,11 @@ import random
  face_begin
 
 path = 'train'
+test_path = 'test'
 classes = ['Tair', 'Saleka', 'None']
 data = []
+test = []
+test_labels = []
 labels = []
 i = 0
 for filename in os.listdir(path):
@@ -25,6 +27,19 @@ for filename in os.listdir(path):
         # labels.append(i)
     i+=1
 
+j = 0
+lab = 0
+for file in os.listdir(test_path):
+    if j > 2:
+        lab = 1
+    img_path = os.path.join(test_path, file)
+    img = cv2.imread(img_path, cv2.IMREAD_COLOR)
+    test.append(img)
+    test_labels.append(lab)
+    j+=1
+
+
+
 random.shuffle(data)
 X = []
 Y = []
@@ -34,6 +49,8 @@ for x, y in data:
 
 X = np.array(X)
 Y = np.array(Y)
+test = np.array(test)
+test_labels = np.array(test_labels)
 
 # data = np.array(data)
 # labels = np.array(labels)
@@ -47,6 +64,35 @@ Y = np.array(Y)
 # print(len(x_train))
 # X = np.asarray(X).astype('float32').reshape((-1,1))
 # Y = np.asarray(Y).astype('float32').reshape((-1,1))
+
+ model_on_realtime
+# Define the CNN model
+model = tf.keras.Sequential()
+model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(250, 250, 3)))
+model.add(layers.MaxPooling2D((2, 2)))
+model.add(layers.Conv2D(64, (3, 3), activation='relu'))
+model.add(layers.MaxPooling2D((2, 2)))
+model.add(layers.Conv2D(128, (3, 3), activation='relu'))
+model.add(layers.MaxPooling2D((2, 2)))
+model.add(layers.Flatten())
+model.add(layers.Dense(64, activation='relu'))
+model.add(layers.Dense(1, activation='sigmoid'))
+ 
+# Compile the model
+model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+
+
+# Train the model
+model.fit(X, Y, epochs=10, batch_size=16)
+
+# Evaluate the model
+test_loss, test_acc = model.evaluate(test, test_labels)
+print('Test accuracy:', test_acc)
+# pr = test[4]
+# pr = pr[None, :]
+# accuracy = model.predict(pr)
+# print(accuracy)
+model.save('cnnForFace.h5')
 
         data.append(img)
         labels.append(i)
@@ -116,4 +162,5 @@ model.save('googleNetForFace.h5')
 
 accuracy = model.evaluate(x_test, y_test)
 model.save('googleNetForFace.h5')
+ face_begin
  face_begin
