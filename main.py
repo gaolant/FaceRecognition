@@ -1,10 +1,11 @@
 import cv2
-import os
+import numpy as np
 from keras.models import load_model
+from model import *
 
 
 train_path = 'train'
-model = load_model('googleNetForFace.h5')
+model = load_model('cnnForFace.h5')
 # model.compile(loss='binary_crossentropy',
 #                   optimizer='adam',
 #                   metrics=['accuracy'])
@@ -13,12 +14,13 @@ cap = cv2.VideoCapture(0)
 while cap.isOpened(): 
     ret, frame = cap.read()
     # Cut down frame to 250x250px
-    frame = frame[120:120+250,200:200+250, :]
-    print(frame.shape)
-    pred=model.predict(frame)
-    print(pred)
+    fr = frame[120:120+250,200:200+250, :]
+    
+    fr = np.array(fr)
+    fr = fr[None, :]
+    pred=model.predict(fr)
+    print(classes[int(pred)])
     # Show image back to screen
-    #dsad
     cv2.imshow('Image', frame)
 
     if cv2.waitKey(1) & 0XFF == ord('q'):
